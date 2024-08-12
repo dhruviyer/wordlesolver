@@ -1,0 +1,4 @@
+# Wordle Solver
+
+Dhruv Iyer
+
