@@ -1,8 +1,6 @@
 from guesser import Guesser
 from bcolors import bcolors
 
-INTERACTIVE_MODE = False
-
 f = open("words.txt")
 words = f.read().splitlines()
 f.close()
@@ -19,7 +17,7 @@ while True:
         print("Failed")
         break
     if tries == 0:
-        guess = "tares"  # guesser.guess_educated()
+        guess = "tares"
     else:
         guess = guesser.guess_educated()
     tries += 1
@@ -52,4 +50,4 @@ while True:
         print("=============")
         print("SOLVED!")
         break
-    guesser.update_educated(guess, results)
+    guesser.prune_result_space(guess, results)

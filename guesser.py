@@ -26,7 +26,19 @@ class Guesser:
     def get_sample_size(self):
         return len(self.wordlist)
 
-    def create_new_search_space(self, guess, results, simulation=False):
+    def has_guesses(self):
+        return len(self.wordlist) >= 1
+
+    def guess_random(self):
+        return random.choice(self.wordlist)
+
+    def prune_search_space(self, guess, results, simulation=False):
+        """Takes the current wordlist and prunes it based on the current list of acceptable results
+
+        simulation -- True if we are testing a word/result pair for guess, False for when we are pruning for real
+
+        """
+
         letter_dict = {}
         wordlist = self.wordlist.copy()
 
@@ -73,31 +85,31 @@ class Guesser:
 
         return len(wordlist)
 
-    def has_guesses(self):
-        return len(self.wordlist) >= 1
+    def prune_result_space(self, guess, results):
+        """Prunes the list of acceptable results to only those that align with our current knowledge of correct letters"""
 
-    def guess_random(self):
-        return random.choice(self.wordlist)
-
-    def update_search_space_educated(self, guess, results):
         for i in range(5):
             if results[i] == "g":
                 self.results_list = [
                     cand for cand in self.results_list if cand[i] == results[i]
                 ]
 
-        self.create_new_search_space(guess, results)
+        self.prune_search_space(guess, results)
 
-    def guess_educated(self, absurdle=False):
+    def guess_educated(self):
+        """Selects the next guess based on the word that has the minimum expected # of words based on all possible results"""
+
         guess = random.choice(self.wordlist)
         best_word_count = 6000
 
         for candidate in self.wordlist:
             totals = []
+
             for result in self.results_list:
                 totals.append(
-                    self.create_new_search_space(candidate, result, simulation=True)
+                    self.prune_search_space(candidate, result, simulation=True)
                 )
+
             total_words = np.sum(totals)
             expected_num_words = 0
             for value in totals:

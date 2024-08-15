@@ -10,12 +10,6 @@ f = open("words.txt")
 words = f.read().splitlines()
 f.close()
 
-frequency = {}
-
-f = open("words.txt")
-words = f.read().splitlines()
-f.close()
-
 evaluator = Evaluator(random.choice(words))
 print("Word is: " + evaluator.solution)
 guesser = Guesser(words)
@@ -37,7 +31,7 @@ while guesser.has_guesses():
         print("  ".join(results_string))
     if is_solved:
         break
-    guesser.update_search_space_educated(guess, results)
+    guesser.prune_result_space(guess, results)
 
 if INTERACTIVE_MODE:
     print("=============")
