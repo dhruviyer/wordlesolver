@@ -2,27 +2,16 @@
 
 Author: Dhruv Iyer
 
-
-
-To run, make sure to unzip `words.zip` into `words.txt`.
-
-To see the program select a word and then try and guess the solution do
+Usage:
 
 ```shell
-python3 engine.py
+python3 wordle_solver.py <wordlist> [-h] [-i] [-a]
 ```
 
-Or to use this program to solve a wordle, do
+`wordlist` is a text file of words in the dictionary. To make things easy, I have included `words.zip`, which you just need to unzip into `words.txt`
 
-```shell
-python3 solver.py
-```
+If you run `wordle_solver.py` without any additional flags, the program will select a random word from the corpus and guess it.
 
-The code will give you a guess to enter into a wordle app of your choice. When you get the results, use 'b' to represent black/grey letters, 'y' to represent yellow letters, and 'g' to represent green letters. Space-separate the inputs.
+If you add `-i`, then you launch interactive mode, which helps you solve your own Wordles. The code will give you a guess to enter into a wordle app of your choice. When you get the results, use 'b' to represent black/grey letters, 'y' to represent yellow letters, and 'g' to represent green letters. For example, you might enter `ggbgy`
 
-Example result: p (grey) o (grey) i (grey) s (yellow) e (green)
-
-Your input: b b b y g
-
-
-Companion blog post covering the method is coming soon!
+If you add `-a` (which is only supported if you also set the interactive mode flag `-i`), then the solver can be used to solve the game [Absurdle](https://qntm.org/absurdle). In practice, this means having the solver minimize the size of maximum bucket instead of the size of the expected bucket
